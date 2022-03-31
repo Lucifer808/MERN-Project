@@ -10,6 +10,27 @@ const userSchema = new Schema({
         required: [true, "Vui lòng nhập tên"],
         maxlength: [30, "Tên có tối đa 30 kí tự"],
     },
+    firstName: {
+        type: String,
+        maxlength: [10, "Họ có tối đa 10 kí tự"]
+    },
+    lastName: {
+        type: String,
+        maxlength: [10, "Tên có tối đa 10 kí tự"]
+    },
+    phoneNumber: {
+        type: String,
+        maxlength: [11, "Số điện thoại có tối đa 11 kí tự"]
+    },
+    address: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    country: {
+        type: String
+    },
     email: {
         type: String,
         required: [true, "Vui lòng nhập email"],
@@ -35,6 +56,10 @@ const userSchema = new Schema({
     role: {
         type: String,
         default: "user",
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date,

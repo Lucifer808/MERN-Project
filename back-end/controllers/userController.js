@@ -149,7 +149,13 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const newUserData = {
         name: req.body.name,
+        fristName: req.body.fristName,
+        lastName: req.body.lastName,
+        phoneNumber: req.body.phoneNumber,
         email: req.body.email,
+        address: req.body.address,
+        city: req.body.city,
+        country: req.body.country
     };
     // Cloudary (* not complete)
     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {

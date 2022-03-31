@@ -72,8 +72,16 @@ const LoginCateListItemStyled = styled.li`
         background-color: #fcb800;
     }
 `
+const LoginedTagContainerStyled = styled.div`
+    padding: 12px 0 12px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 400;
+    list-style-type: none;
+`
 const LoginCateListItemOptionStyled = styled.span`
-    margin-left: 10px;
+    margin-left: 6px;
     font-weight: 400;
 `
 const LogoutLineStyled = styled.div`
@@ -85,6 +93,18 @@ const LogoutStyled = styled.span`
     margin-left: 10px;
     font-weight: 400;
 ` 
+const CountNotificationWrapStyled = styled.div`
+    display: flex;
+    align-items: center;
+`
+const CountNotificationStyled = styled.span`
+    margin-right: 10px;
+    background-color: red;
+    padding: 4px 8px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+`
 const UserOptions = ({user}) => {
   const dispatch = useDispatch();
   const [imageReview, setImageReview] = useState("/Profile.png");
@@ -113,14 +133,20 @@ const UserOptions = ({user}) => {
                   <LoginCateListItemOptionStyled>Thông tin cá nhân</LoginCateListItemOptionStyled>
                 </LoginCateListItemStyled>
               </Link>
-              <LoginCateListItemStyled>
-                <NotificationsOutlinedIcon />
-                <LoginCateListItemOptionStyled>Thông báo</LoginCateListItemOptionStyled>
-              </LoginCateListItemStyled>
-              <LoginCateListItemStyled>
-                <EmailOutlinedIcon />
-                <LoginCateListItemOptionStyled>Tin nhắn</LoginCateListItemOptionStyled>
-              </LoginCateListItemStyled>
+              <LoginedTagContainerStyled>
+                <CountNotificationWrapStyled>
+                  <NotificationsOutlinedIcon />
+                  <LoginCateListItemOptionStyled>Thông báo</LoginCateListItemOptionStyled>
+                </CountNotificationWrapStyled>
+                  <CountNotificationStyled>2</CountNotificationStyled>
+              </LoginedTagContainerStyled>
+              <LoginedTagContainerStyled>
+                <CountNotificationWrapStyled>
+                  <EmailOutlinedIcon />
+                  <LoginCateListItemOptionStyled>Tin nhắn</LoginCateListItemOptionStyled>
+                </CountNotificationWrapStyled>
+                <CountNotificationStyled>2</CountNotificationStyled>
+              </LoginedTagContainerStyled>
               { user.role === "admin" ? (
                 <LoginCateListItemStyled>
                 <WarehouseOutlinedIcon />

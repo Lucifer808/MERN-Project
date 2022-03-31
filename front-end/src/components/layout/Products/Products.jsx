@@ -367,7 +367,6 @@ const Products = () => {
             <ProductsWrapStyled>
             {products && products.map((product) =><Product product = {product} key={product._id}/>)}
             </ProductsWrapStyled>
-            { count >= resultPerPage && (
                 <PaginationStyled>
                     <Pagination 
                         activePage = {currentPage}
@@ -376,13 +375,14 @@ const Products = () => {
                         onChange={setCurrentPageNo}
                         nextPageText="Tiếp theo"
                         prevPageText="Trở lại"
+                        firstPageText="Trang đầu"
+                        lastPageText="Trang cuối"
                         itemClass="page-item"
                         linkClass="page-link"
                         activeClass="pageItemActive"
                         activeLinkClass="pageLinkActive"
                     />
-                </PaginationStyled> 
-            )}
+                </PaginationStyled>
         </>}
         </ContainerProductsStyled>
         </ContainerStyled>

@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import Header from '../Header'
-import Footer from '../Footer'
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -150,7 +148,6 @@ const Register = () => {
   return (
     <>
     <CotainerStyled>
-      <Header />
         <AddressStyled>Home / Sign Up</AddressStyled>
         { loading ? <Loader /> : (
           <LoginWrapStyled>
@@ -237,7 +234,6 @@ const Register = () => {
           </LoginFormStyled>
         </LoginWrapStyled>
         )}
-      <Footer />
     </CotainerStyled>
     </>
   )

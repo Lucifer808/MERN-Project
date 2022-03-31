@@ -74,6 +74,7 @@ const SelectStyled = styled.select`
     padding: 10px 20px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    cursor: pointer;
 `
 const OptionsStyled = styled.option`
     width: 100%;
@@ -438,7 +439,7 @@ const Header = () => {
                         placeholder="Tìm kiếm sản phẩm..."
                         onChange={(e) => setKeyword(e.target.value)}
                         ></SearchStyled>
-                        <SearchBtnStyled type="submit">Tìm kiếm</SearchBtnStyled>
+                        <SearchBtnStyled type="submit">Tìm kiếm</SearchBtnStyled>   
                     </SearchContainerStyled>
                 </CenterSideStyled>
                 <RightSideStyled>
@@ -571,7 +572,7 @@ const Header = () => {
                             </CateListItemStyled>
                             <CateListItemStyled>
                                 <HeadphonesIcon />
-                                <CateListItemOptionStyled>Phụ kiện điện thoại</CateListItemOptionStyled>
+                                <CateListItemOptionStyled>Sản phẩm phụ kiện</CateListItemOptionStyled>
                             </CateListItemStyled>
                             <CateListItemStyled>
                                 <WatchOutlinedIcon />

@@ -7,8 +7,12 @@ import LoginSignUp from './components/layout/Auth/LoginSignUp';
 import Register from "./components/layout/Auth/Register";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./components/layout/User/Profile";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 const App = () => {
     return(
+        <>
+            <Header />
         <Routes>
             <Route path="/" index element={<Home/>}></Route>
             <Route path="/products" element={<ProductList />}></Route>
@@ -18,6 +22,8 @@ const App = () => {
             <Route path="/products/:keyword" element={<ProductList />}></Route>
             <Route path="/product/:id" element={<ProductDetails />}></Route>
         </Routes>
+            <Footer />
+        </>
     )
 };
 

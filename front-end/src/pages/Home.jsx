@@ -1,6 +1,4 @@
 import React from 'react'
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
 import Banner from '../components/layout/Home/Banner';
 import Services from '../components/layout/Home/Services';
 import Trending from '../components/layout/Home/Trending';
@@ -13,7 +11,6 @@ const Home = () => {
     return (
         <>
             <ScrollToTop />
-            <Header />
             <Banner />
             <Services />
             <Trending />
@@ -23,7 +20,6 @@ const Home = () => {
             <BottomSlide />
             <SlideImage/>
             <NewArrivals />
-            <Footer />
         </>
     )
 }
