@@ -263,6 +263,8 @@ const ProductReviewsNotification = styled.p``
 const ProductSide = () => {
     const params = useParams();
     const dispatch = useDispatch();
+    const [valueIndex, setValueIndex] = useState('1');
+    const [quantity, setQuantity] = useState(1);
     useEffect(() => {
         dispatch(getProductDetails(params.id))
     },[dispatch, params.id])
@@ -295,11 +297,22 @@ const ProductSide = () => {
         value: product.ratings,
         isHalf: true
     }
-    const [value, setValue] = useState('1');
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setValueIndex(newValue);
     };
+
+    const decreaseQuantity = () =>{
+        if(quantity <= 1) return;
+        const qty = quantity - 1;
+        setQuantity(qty)
+    }
+
+    const increaseQuantity = () =>{
+        if(product.stock <= quantity) return;
+        const qty = quantity + 1;
+        setQuantity(qty)
+    }
     return (
         <>
             {loading ? <Loader /> : (
@@ -311,8 +324,8 @@ const ProductSide = () => {
                     {
                         image.map((item, index) => {
                             return (
-                            <ProductSideWrapStyled>
-                                <ProductSideImageStyled key={index} src={item} alt="" style={{width: '340px', height: '340px'}}/>
+                            <ProductSideWrapStyled key={index}>
+                                <ProductSideImageStyled src={item} alt="" style={{width: '340px', height: '340px'}}/>
                             </ProductSideWrapStyled>
                             )
                         })
@@ -364,9 +377,14 @@ const ProductSide = () => {
                     <BuyingContainerStyled>
                         <BuyingTitleStyled>Số lượng</BuyingTitleStyled>
                         <BuyingQuantityWrapStyled>
-                            <RemoveIcon style={{cursor: 'pointer'}}/>
-                            <BuyingQuantityInputStyled defaultValue="1" type="number" min="0"/>
-                            <AddIcon style={{cursor: 'pointer'}}/>
+                            <RemoveIcon style={{cursor: 'pointer'}} onClick={decreaseQuantity}/>
+                                <BuyingQuantityInputStyled 
+                                    type="number"
+                                    min="0"
+                                    value={quantity}
+                                    readOnly
+                                />
+                            <AddIcon style={{cursor: 'pointer'}} onClick={increaseQuantity}/>
                             <InsertChartOutlinedIcon style={{margin: '0 10px', fontSize: '30px', cursor: 'pointer'}} />
                             <FavoriteBorderOutlinedIcon style={{fontSize: '30px', cursor: 'pointer'}} />
                         </BuyingQuantityWrapStyled>
@@ -404,7 +422,7 @@ const ProductSide = () => {
             </WrapperStyled>
             <ProductDescWrap>
                 <Box sx={{ width: '100%' , height: '100%' }}>
-                <TabContext value={value}>
+                <TabContext value={valueIndex}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={handleChange} variant='fullWidth'>
                         <Tab label="Mô tả sản phẩm" value="1" />

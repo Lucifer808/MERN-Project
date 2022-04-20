@@ -94,7 +94,8 @@ const LoginSignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();
-  const {loading, error, isAuthenticated} = useSelector((state) => state.user);
+  const {error, isAuthenticated, loading} = useSelector((state) => state.user);
+  // const {loading} = useSelector((state) => state.profile);
   const [loginEmail, setLoginEmail] = useState('');
   const [password, setPassword] = useState('');
   const loginSubmit = (e) => {

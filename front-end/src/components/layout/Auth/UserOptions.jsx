@@ -7,7 +7,7 @@ import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
 import styled, {keyframes} from 'styled-components';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../../actions/userAction';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useAlert } from 'react-alert';
 const fadeIn = keyframes `
     from {
@@ -107,11 +107,13 @@ const CountNotificationStyled = styled.span`
 `
 const UserOptions = ({user}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [imageReview, setImageReview] = useState("/Profile.png");
   const alert = useAlert();
   const LogoutHandle = () =>{
     dispatch(logout());
     alert.success('Đăng xuất thành công');
+    navigate('/')
   }
   return (
     <>

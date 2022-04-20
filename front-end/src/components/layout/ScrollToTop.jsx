@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 // import up from '../../assets/slick-arrow/up-arrow-svgrepo-com.svg';
 const ToTopStyled = styled.div`
@@ -18,18 +18,27 @@ const ToTopStyled = styled.div`
     background-color: #1900ff39;
     text-align: center;
 `
+const ImageStyled  = styled.img``
 const ScrollToTop = () => {
     const [scrollState, setScrollState] = useState(false);
-    window.addEventListener('scroll',()=>{
-        window.pageYOffset > 200 ? setScrollState(true) : setScrollState(false);
+    const [arrow, setArrow] = useState('/Arrow.png');
+    useEffect(()=>{
+        const behaviorScroll = () =>{
+            setScrollState(window.pageYOffset > 200)
+        }
+        window.addEventListener('scroll', behaviorScroll)
+        return ()=>{
+            window.removeEventListener('scroll', behaviorScroll)
+        }
     })
     const toTop = () =>{
         window.scrollTo({top: 0, behavior: 'smooth'});
+        setScrollState(false);
     }
     return (
         <>
             <ToTopStyled scrollState={scrollState} onClick={()=>toTop()}>
-            <img src="https://img.icons8.com/cotton/50/000000/collapse-arrow.png" alt=""/>
+            <img src={arrow} alt=""/>
             </ToTopStyled>
         </>
     )

@@ -102,7 +102,8 @@ const ImageDefaultStyled = styled.img`
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {loading, error, isAuthenticated} = useSelector((state) => state.user)
+  const {error, isAuthenticated, loading} = useSelector((state) => state.user);
+  // const {loading} = useSelector((state) => state.profile);
   const [active, setActive] = useState(true);
   const [imageReview, setImageReview] = useState("/Profile.png");
   const [avatar, setAvatar] = useState("/Profile.png");
@@ -151,87 +152,87 @@ const Register = () => {
         <AddressStyled>Home / Sign Up</AddressStyled>
         { loading ? <Loader /> : (
           <LoginWrapStyled>
-          <SignUpWrapStyled>
-            <SignUpTitleStyled style={{fontSize: active && '34px', color: active && '#000'}}>Đăng ký</SignUpTitleStyled>
-            <SignUpTitleStyled>Đăng nhập</SignUpTitleStyled>
-          </SignUpWrapStyled>
-          <LoginFormStyled
-            encType='multipart/form-data'
-            onSubmit={registerSubmit}
-          >
-            <InputWrapStyled>
-              <InputTitleStyled>Tên đăng nhập</InputTitleStyled>
-              <InputStyled
-                type='text' 
-                placeholder='Nhập email ...'
-                name="email"
-                required
-                value={email}
-                onChange={registerDataChange}
-              />
-            </InputWrapStyled>
-            <InputWrapStyled>
-              <InputTitleStyled>Họ và tên</InputTitleStyled>
-              <InputStyled 
-                type='text' 
-                placeholder='Nhập họ và tên...'
-                name="name"
-                required
-                value={name}
-                onChange={registerDataChange}
+            <SignUpWrapStyled>
+              <SignUpTitleStyled style={{fontSize: active && '34px', color: active && '#000'}}>Đăng ký</SignUpTitleStyled>
+              <SignUpTitleStyled>Đăng nhập</SignUpTitleStyled>
+            </SignUpWrapStyled>
+            <LoginFormStyled
+              encType='multipart/form-data'
+              onSubmit={registerSubmit}
+            >
+              <InputWrapStyled>
+                <InputTitleStyled>Tên đăng nhập</InputTitleStyled>
+                <InputStyled
+                  type='text' 
+                  placeholder='Nhập email ...'
+                  name="email"
+                  required
+                  value={email}
+                  onChange={registerDataChange}
                 />
-            </InputWrapStyled>
-            <InputWrapStyled>
-              <InputTitleStyled>Mật khẩu</InputTitleStyled>
-              <InputStyled 
-                type='password' 
-                placeholder='Nhập mật khẩu...'
-                name='password'
-                required
-                value={password}
-                onChange={registerDataChange}
-              />
-            </InputWrapStyled>
-            {/* <InputWrapStyled>
-              <InputTitleStyled>Nhập lại mật khẩu</InputTitleStyled>
-              <InputStyled 
-                type='password' 
-                placeholder='Nhập lại mật khẩu...'
-                name='confirmPassword'
+              </InputWrapStyled>
+              <InputWrapStyled>
+                <InputTitleStyled>Họ và tên</InputTitleStyled>
+                <InputStyled 
+                  type='text' 
+                  placeholder='Nhập họ và tên...'
+                  name="name"
+                  required
+                  value={name}
+                  onChange={registerDataChange}
+                  />
+              </InputWrapStyled>
+              <InputWrapStyled>
+                <InputTitleStyled>Mật khẩu</InputTitleStyled>
+                <InputStyled 
+                  type='password' 
+                  placeholder='Nhập mật khẩu...'
+                  name='password'
+                  required
+                  value={password}
+                  onChange={registerDataChange}
                 />
-            </InputWrapStyled> */}
-            <InputImgWrapStyled>
-              <ImageDefaultStyled src={imageReview} alt="Avatar Review"/>
-              <InputImgStyled 
-                type='file' 
-                accept='image/*'
-                name='avatar'
-                onChange={registerDataChange}
-                />
-            </InputImgWrapStyled>
-            <RememberWrapStyled>
-              <RememberInputStyled type='checkbox' />
-              <RememberTitleStyled>Tôi đồng ý với các điều khoản & chính sách</RememberTitleStyled>
-            </RememberWrapStyled>
-            <SubmitBtnStyled type='submit' value="Đăng ký"/>
-            <TagIconContainerStyled>
-              <TagIconWrapStyled>
-                <FacebookIcon style={{fontSize: '46px', color: '#3b5999'}}/>
-              </TagIconWrapStyled>
-              <TagIconWrapStyled>
-                <TwitterIcon style={{fontSize: '46px', color: '#55acee'}}/>
-              </TagIconWrapStyled>
-              <TagIconWrapStyled>
-                <GoogleIcon style={{fontSize: '46px', color: '#dd4b39'}}/>
-              </TagIconWrapStyled>
-              <TagIconWrapStyled>
-                <LinkedInIcon style={{fontSize: '46px', color: '#0077b5'}}/>
-              </TagIconWrapStyled>
-              <TagIconWrapStyled>
-                <InstagramIcon style={{fontSize: '46px', color: 'rgb(197 63 130)'}}/>
-              </TagIconWrapStyled>
-            </TagIconContainerStyled>
-          </LoginFormStyled>
+              </InputWrapStyled>
+              {/* <InputWrapStyled>
+                <InputTitleStyled>Nhập lại mật khẩu</InputTitleStyled>
+                <InputStyled 
+                  type='password' 
+                  placeholder='Nhập lại mật khẩu...'
+                  name='confirmPassword'
+                  />
+              </InputWrapStyled> */}
+              <InputImgWrapStyled>
+                <ImageDefaultStyled src={imageReview} alt="Avatar Review"/>
+                <InputImgStyled 
+                  type='file' 
+                  accept='image/*'
+                  name='avatar'
+                  onChange={registerDataChange}
+                  />
+              </InputImgWrapStyled>
+              <RememberWrapStyled>
+                <RememberInputStyled type='checkbox' />
+                <RememberTitleStyled>Tôi đồng ý với các điều khoản & chính sách</RememberTitleStyled>
+              </RememberWrapStyled>
+              <SubmitBtnStyled type='submit' value="Đăng ký"/>
+              <TagIconContainerStyled>
+                <TagIconWrapStyled>
+                  <FacebookIcon style={{fontSize: '46px', color: '#3b5999'}}/>
+                </TagIconWrapStyled>
+                <TagIconWrapStyled>
+                  <TwitterIcon style={{fontSize: '46px', color: '#55acee'}}/>
+                </TagIconWrapStyled>
+                <TagIconWrapStyled>
+                  <GoogleIcon style={{fontSize: '46px', color: '#dd4b39'}}/>
+                </TagIconWrapStyled>
+                <TagIconWrapStyled>
+                  <LinkedInIcon style={{fontSize: '46px', color: '#0077b5'}}/>
+                </TagIconWrapStyled>
+                <TagIconWrapStyled>
+                  <InstagramIcon style={{fontSize: '46px', color: 'rgb(197 63 130)'}}/>
+                </TagIconWrapStyled>
+              </TagIconContainerStyled>
+            </LoginFormStyled>
         </LoginWrapStyled>
         )}
     </CotainerStyled>
