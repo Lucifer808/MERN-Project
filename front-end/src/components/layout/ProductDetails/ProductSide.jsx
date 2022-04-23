@@ -23,6 +23,8 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ProductReviewCard from './ProductReviewCard';
 import Loader from '../../child/Loader';
+import { addItemsToCart } from '../../../actions/cartAction';
+import { useAlert } from 'react-alert';
 const WrapperStyled = styled.div`
     display: flex;
     flex: 4;
@@ -263,6 +265,7 @@ const ProductReviewsNotification = styled.p``
 const ProductSide = () => {
     const params = useParams();
     const dispatch = useDispatch();
+    const alert = useAlert();
     const [valueIndex, setValueIndex] = useState('1');
     const [quantity, setQuantity] = useState(1);
     useEffect(() => {
@@ -312,6 +315,11 @@ const ProductSide = () => {
         if(product.stock <= quantity) return;
         const qty = quantity + 1;
         setQuantity(qty)
+    }
+
+    const addToCartHandle = () =>{
+        dispatch(addItemsToCart(params.id, quantity));
+        alert.success("Sản phẩm đã được thêm vào giỏ hàng")
     }
     return (
         <>
@@ -389,7 +397,7 @@ const ProductSide = () => {
                             <FavoriteBorderOutlinedIcon style={{fontSize: '30px', cursor: 'pointer'}} />
                         </BuyingQuantityWrapStyled>
                         <BuyingTitleStyled style={{fontSize: '16px', marginTop: '10px'}}>{product.stock} sản phẩm có sẳn</BuyingTitleStyled>
-                        <BuyingBtnStyled>Thêm vào giỏ hàng</BuyingBtnStyled>
+                        <BuyingBtnStyled onClick={addToCartHandle}>Thêm vào giỏ hàng</BuyingBtnStyled>
                     </BuyingContainerStyled>
                     <TagContainerStyled>
                         <TagReportStyled>Báo cáo vi phạm</TagReportStyled>

@@ -16,6 +16,7 @@ import ForgotPassword from "./components/layout/Auth/ForgotPassword";
 import { loadUser } from "./actions/userAction";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import ResetPassword from "./components/layout/User/ResetPassword";
+import Cart from "./components/layout/Cart/Cart";
 function App() {
     useEffect(() =>{
         store.dispatch(loadUser());
@@ -37,6 +38,7 @@ function App() {
             <Route path="/products/:keyword" element={<ProductList />}></Route>
             <Route path="/me/password/reset/:token" element={<ResetPassword />}></Route>
             <Route path="/product/:id" element={<ProductDetails />}></Route>
+            <Route path="/cart" element={<Cart />}></Route>
         </Routes>
             <Footer />
         </>

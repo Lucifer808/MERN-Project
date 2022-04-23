@@ -525,7 +525,9 @@ const Header = () => {
                                     <CartBottomTotalPriceStyled>78,000,000 VND</CartBottomTotalPriceStyled>
                                 </CartBottomTotalWrapStyled>
                                 <CartBottomBtnWrapStyled>
-                                    <CartBottomredirectStyled>Xem giỏ hàng</CartBottomredirectStyled>
+                                    <Link to='/cart' style={{textDecoration: 'none', color: 'black'}}>
+                                        <CartBottomredirectStyled>Xem giỏ hàng</CartBottomredirectStyled>
+                                    </Link>
                                     <CartBottomredirectStyled>Thanh toán ngay</CartBottomredirectStyled>
                                 </CartBottomBtnWrapStyled>
                             </CartBottomStyled>
