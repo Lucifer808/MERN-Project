@@ -182,7 +182,7 @@ const CartNoticeStyled = styled.span `
     font-size: 14px;
     top: 20px;
     margin-left: 18px;
-    padding-bottom: 0;
+    padding-bottom: 2px;
 `
 const fadeIn = keyframes `
     from {
@@ -310,7 +310,6 @@ const CartWrapperStyled = styled.div`
     background-color: #fff;
     position: absolute;
     width: 370px;
-    height: 380px;
     border: 2px solid lightgray;
     z-index: 4;
     top: 40px;
@@ -344,7 +343,7 @@ const CartItemStyled = styled.li`
     padding-right: 10px;
 `
 const CartBottomStyled = styled.div`
-    margin: 0px 20px 20px 20px;
+    margin: 20px;
 `
 const CartImgStyled = styled.img`
     height: 60px;
@@ -407,10 +406,28 @@ const CartBottomredirectStyled = styled.button`
         color: #fff;
     }
 `
-
+const NoCartWrapStyled = styled.div`
+`
+const NoCartImageStyled = styled.img`
+    width: 100%;
+    height: 320px;
+    object-fit: cover;  
+`
+const NoCartTitleStyled = styled.p`
+    text-align: center;
+    font-weight: 300;
+    font-size: 18px;
+`
+const CartwrapStyled = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+`
 const Header = () => {
     const navigate = useNavigate();
     const {user, isAuthenticated} = useSelector((state) => state.user);
+    const { cartItems } = useSelector((state) => state.cart);
     const [keyword, setKeyword] = useState("");
     const submitHandler = (e) => {
         e.preventDefault();
@@ -453,70 +470,34 @@ const Header = () => {
                     </IconWrapperStyled>
                     <CartIconWrapperStyled>
                         <LocalMallOutlinedIcon className="cart-icon" style={{fontSize: '36px'}}/>
-                        <CartNoticeStyled>3</CartNoticeStyled>
+                        <CartNoticeStyled>{cartItems.length}</CartNoticeStyled>
+                                    {cartItems.length === 0 ? (
                         <CartWrapperStyled className="cart">
                             <CartTopStyled>
+                                        <NoCartWrapStyled>
+                                            <NoCartImageStyled src='/no-cart.png' />
+                                            <NoCartTitleStyled>Không có sản phẩm trong giỏ hàng</NoCartTitleStyled>
+                                        </NoCartWrapStyled>
+                            </CartTopStyled>
+                        </CartWrapperStyled>
+                                    ) :(
+                        <CartWrapperStyled className="cart">
+                            <CartwrapStyled>
+                            <CartTopStyled>
                                 <CartListStyled>
-                                    <CartItemStyled>
-                                        <CartImgStyled src={img1} />
+                                    {cartItems.map((item) => (
+                                    <CartItemStyled key={item.product}>
+                                        <CartImgStyled src={item.image} />
                                         <CartItemHeadStyled>
                                             <CartItemHeadPriceWrapStyled>
-                                                <CartItemHeadTitleStyled>Grand Slam Indoor Of Show Jumping Novel</CartItemHeadTitleStyled>
-                                                <CartItemHeadPriceStyled>26,000,000 VND</CartItemHeadPriceStyled>
+                                                <CartItemHeadTitleStyled>{item.name}</CartItemHeadTitleStyled>
+                                                <CartItemHeadPriceStyled>{item.price} VND</CartItemHeadPriceStyled>
                                                 <CartItemHeadMultyplyStyled>x</CartItemHeadMultyplyStyled>
-                                                <CartItemHeadQuantityStyled>2</CartItemHeadQuantityStyled>
+                                                <CartItemHeadQuantityStyled>{item.quantity}</CartItemHeadQuantityStyled>
                                             </CartItemHeadPriceWrapStyled>
-                                            <CartItemHeadBtnStyled>x</CartItemHeadBtnStyled>
                                         </CartItemHeadStyled>
                                     </CartItemStyled>
-                                    <CartItemStyled>
-                                        <CartImgStyled src={img1} />
-                                        <CartItemHeadStyled>
-                                            <CartItemHeadPriceWrapStyled>
-                                                <CartItemHeadTitleStyled>Grand Slam Indoor Of Show Jumping Novel</CartItemHeadTitleStyled>
-                                                <CartItemHeadPriceStyled>26,000,000 VND</CartItemHeadPriceStyled>
-                                                <CartItemHeadMultyplyStyled>x</CartItemHeadMultyplyStyled>
-                                                <CartItemHeadQuantityStyled>2</CartItemHeadQuantityStyled>
-                                            </CartItemHeadPriceWrapStyled>
-                                            <CartItemHeadBtnStyled>x</CartItemHeadBtnStyled>
-                                        </CartItemHeadStyled>
-                                    </CartItemStyled>
-                                    <CartItemStyled>
-                                        <CartImgStyled src={img1} />
-                                        <CartItemHeadStyled>
-                                            <CartItemHeadPriceWrapStyled>
-                                                <CartItemHeadTitleStyled>Grand Slam Indoor Of Show Jumping Novel</CartItemHeadTitleStyled>
-                                                <CartItemHeadPriceStyled>26,000,000 VND</CartItemHeadPriceStyled>
-                                                <CartItemHeadMultyplyStyled>x</CartItemHeadMultyplyStyled>
-                                                <CartItemHeadQuantityStyled>2</CartItemHeadQuantityStyled>
-                                            </CartItemHeadPriceWrapStyled>
-                                            <CartItemHeadBtnStyled>x</CartItemHeadBtnStyled>
-                                        </CartItemHeadStyled>
-                                    </CartItemStyled>
-                                    <CartItemStyled>
-                                        <CartImgStyled src={img1} />
-                                        <CartItemHeadStyled>
-                                            <CartItemHeadPriceWrapStyled>
-                                                <CartItemHeadTitleStyled>Grand Slam Indoor Of Show Jumping Novel</CartItemHeadTitleStyled>
-                                                <CartItemHeadPriceStyled>26,000,000 VND</CartItemHeadPriceStyled>
-                                                <CartItemHeadMultyplyStyled>x</CartItemHeadMultyplyStyled>
-                                                <CartItemHeadQuantityStyled>2</CartItemHeadQuantityStyled>
-                                            </CartItemHeadPriceWrapStyled>
-                                            <CartItemHeadBtnStyled>x</CartItemHeadBtnStyled>
-                                        </CartItemHeadStyled>
-                                    </CartItemStyled>
-                                    <CartItemStyled>
-                                        <CartImgStyled src={img1} />
-                                        <CartItemHeadStyled>
-                                            <CartItemHeadPriceWrapStyled>
-                                                <CartItemHeadTitleStyled>Grand Slam Indoor Of Show Jumping Novel</CartItemHeadTitleStyled>
-                                                <CartItemHeadPriceStyled>26,000,000 VND</CartItemHeadPriceStyled>
-                                                <CartItemHeadMultyplyStyled>x</CartItemHeadMultyplyStyled>
-                                                <CartItemHeadQuantityStyled>2</CartItemHeadQuantityStyled>
-                                            </CartItemHeadPriceWrapStyled>
-                                            <CartItemHeadBtnStyled>x</CartItemHeadBtnStyled>
-                                        </CartItemHeadStyled>
-                                    </CartItemStyled>
+                                    ))}
                                 </CartListStyled>
                             </CartTopStyled>
                             <CartBottomStyled>
@@ -531,7 +512,9 @@ const Header = () => {
                                     <CartBottomredirectStyled>Thanh toán ngay</CartBottomredirectStyled>
                                 </CartBottomBtnWrapStyled>
                             </CartBottomStyled>
+                            </CartwrapStyled>
                         </CartWrapperStyled>
+                                    )}
                     </CartIconWrapperStyled>
                         { isAuthenticated ? 
                         <UserOptions user={user} />

@@ -5,7 +5,7 @@ const ProtectedRoute = ({isAdmin}) => {
     const {loading, isAuthenticated, user} = useSelector((state) => state.user);
   return (
     <>
-        {isAuthenticated ? <Outlet /> : <Navigate to='login' replace />}
+        {isAuthenticated ? <Outlet /> : <Navigate to='/login' replace />}
     </>
   )
 }

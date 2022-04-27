@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "./App.css";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
@@ -17,9 +17,24 @@ import { loadUser } from "./actions/userAction";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import ResetPassword from "./components/layout/User/ResetPassword";
 import Cart from "./components/layout/Cart/Cart";
+import Shipping from "./components/layout/Cart/Shipping";
+import ConfirmOrder from "./components/layout/Cart/ConfirmOrder";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import Payment from "./components/layout/Cart/Payment";
 function App() {
+    const { isAuthenticated, user } = useSelector((state) => state.user);
+
+    const [stripeApiKey, setStripeApiKey] = useState("");
+
+    async function getStripeApiKey() {
+        const { data } = await axios.get("/api/v1/stripeapikey");
+
+        setStripeApiKey(data.stripeApiKey);
+    }
     useEffect(() =>{
         store.dispatch(loadUser());
+        getStripeApiKey();
     }, [])
     return(
         <>
@@ -33,12 +48,16 @@ function App() {
                 <Route path="/account" element={<UserInfo />}></Route>
                 <Route path="/me/update" element={<UpdateProfile />}></Route>
                 <Route path="/me/password/update" element={<ChangePassword />}></Route>
+                <Route path="/order/confirm" element={<ConfirmOrder />}></Route>
+                <Route path="/process/payment" element={<Payment />}></Route>
             </Route>
+            <Route path="/login/shipping" element={<Shipping />}></Route>
             <Route path="/password/forgot" element={<ForgotPassword />}></Route>
             <Route path="/products/:keyword" element={<ProductList />}></Route>
             <Route path="/me/password/reset/:token" element={<ResetPassword />}></Route>
             <Route path="/product/:id" element={<ProductDetails />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
+
         </Routes>
             <Footer />
         </>

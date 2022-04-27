@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { image } from '../../../Static/dummydata';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemsToCart, removeItemsToCart } from '../../../actions/cartAction';
+import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
+import { Typography } from "@material-ui/core";
 const CartContainerStyled = styled.div`
   padding: 30px;
 `
@@ -123,7 +126,9 @@ const CartDetailTotalBottomWrapStyled = styled.div`
   justify-content: space-between;
 `
 const CartDetailTotalStyled = styled.p``
-const CartDetailTotalContainerStyled = styled.div``
+const CartDetailTotalContainerStyled = styled.div`
+  width: 400px;
+`
 const CheckoutBtnStyled = styled.button`
   padding: 14px 10px;
   width: 100%;
@@ -141,10 +146,50 @@ const CheckoutBtnStyled = styled.button`
     color: #fff;
   }
 `
+const NoCartContainerStyled = styled.div`
+  text-align: center;
+  height: 50vh;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 const Cart = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { cartItems } = useSelector((state) => state.cart);
+  const increaseQuantity = (id, qty, stock) =>{
+    const newQty = qty + 1;
+    if(qty >= stock){
+      return;
+    }
+    dispatch(addItemsToCart(id, newQty));
+  }
+  const decreaseQuantity = (id, qty) =>{
+    const newQty = qty - 1;
+    if(1 >= qty){
+      return;
+    }
+    dispatch(addItemsToCart(id, newQty))
+  }
+  const deleteCartItems = (id) => {
+    dispatch(removeItemsToCart(id));
+  }
+  const checkoutHandler = () =>{
+    navigate('/login?redirect=shipping', {replace: true});
+  }
   return (
     <>
-        <CartContainerStyled>
+        {cartItems.length === 0 ? (
+          <NoCartContainerStyled>
+            <RemoveShoppingCartOutlinedIcon style={{fontSize: '50px'}}/>
+            <Typography style={{fontSize: '20px'}}>Không có sản phẩm trong giỏ hàng</Typography>
+            <Link to="/products" style={{backgroundColor: 'rgb(51, 51,51)', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer',
+            textDecoration: 'none', marginTop: '10px'}}>Xem sản phẩm</Link>
+          </NoCartContainerStyled>
+        ) : (
+          <CartContainerStyled>
             <AddressStyled>Home / Shopping Cart</AddressStyled>
           <CartWrapStyled>
             <CartWrapTitleStyled>
@@ -159,87 +204,50 @@ const Cart = () => {
                   <CartDetailThStyled>Thành tiền</CartDetailThStyled>
                   <CartDetailThStyled>Hành động</CartDetailThStyled>
                 </CartDetailTrStyled>
-                <CartDetailTrStyled>
+                {cartItems && cartItems.map((item) => (
+                <CartDetailTrStyled key={item.product}>
                   <CartDetailTdStyled style={{width: '400px', height: '100px'}}>
                     <CartInfoStyled>
-                      <CartImageStyled src={image[1]}/>
-                      <CartProductTitleStyled>Beat Spill 2.0 Wireless Speaker – White</CartProductTitleStyled>
+                      <CartImageStyled src={item.image}/>
+                      <CartProductTitleStyled>{item.name}</CartProductTitleStyled>
                     </CartInfoStyled>
                   </CartDetailTdStyled>
                   <CartDetailTdStyled style={{width: '200px'}}>
-                       <CartProductPriceStyled>12.000.000VND</CartProductPriceStyled>
+                       <CartProductPriceStyled>{item.price?.toLocaleString()}</CartProductPriceStyled>
                   </CartDetailTdStyled>
                   <CartDetailTdStyled style={{width: '200px'}}>
                     <BuyingQuantityWrapStyled>
-                      <RemoveIcon style={{cursor: 'pointer'}}/>
+                      <RemoveIcon 
+                        style={{cursor: 'pointer'}}
+                        onClick={() => decreaseQuantity(
+                          item.product,
+                          item.quantity
+                        )}
+                        />
                           <BuyingQuantityInputStyled 
                             type="number"
                             min="0"
+                            value={item.quantity}
+                            readOnly
                           />
-                        <AddIcon style={{cursor: 'pointer'}}/>
+                      <AddIcon 
+                        style={{cursor: 'pointer'}}
+                        onClick={() => increaseQuantity(
+                          item.product,
+                          item.quantity,
+                          item.stock
+                        )}
+                        />
                     </BuyingQuantityWrapStyled>
                   </CartDetailTdStyled>
                   <CartDetailTdStyled style={{width: '200px'}}>
-                       <CartProductPriceStyled>24.000.000VND</CartProductPriceStyled>
+                       <CartProductPriceStyled>{(item.price * item.quantity).toLocaleString()}</CartProductPriceStyled>
                   </CartDetailTdStyled>
                   <CartDetailTdStyled style={{width: '200px', textAlign: 'center'}}>
-                       <DeleteOutlineOutlinedIcon />
+                       <DeleteOutlineOutlinedIcon style={{cursor: 'pointer', color: 'red'}} onClick={() => deleteCartItems(item.product)}/>
                   </CartDetailTdStyled>
                 </CartDetailTrStyled>
-                <CartDetailTrStyled>
-                  <CartDetailTdStyled style={{width: '400px', height: '100px'}}>
-                    <CartInfoStyled>
-                      <CartImageStyled src={image[1]}/>
-                      <CartProductTitleStyled>Beat Spill 2.0 Wireless Speaker – White</CartProductTitleStyled>
-                    </CartInfoStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px'}}>
-                       <CartProductPriceStyled>12.000.000VND</CartProductPriceStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px'}}>
-                    <BuyingQuantityWrapStyled>
-                      <RemoveIcon style={{cursor: 'pointer'}}/>
-                          <BuyingQuantityInputStyled 
-                            type="number"
-                            min="0"
-                          />
-                        <AddIcon style={{cursor: 'pointer'}}/>
-                    </BuyingQuantityWrapStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px'}}>
-                       <CartProductPriceStyled>24.000.000VND</CartProductPriceStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px', textAlign: 'center'}}>
-                       <DeleteOutlineOutlinedIcon />
-                  </CartDetailTdStyled>
-                </CartDetailTrStyled>
-                <CartDetailTrStyled>
-                  <CartDetailTdStyled style={{width: '400px', height: '100px'}}>
-                    <CartInfoStyled>
-                      <CartImageStyled src={image[1]}/>
-                      <CartProductTitleStyled>Beat Spill 2.0 Wireless Speaker – White x1</CartProductTitleStyled>
-                    </CartInfoStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px'}}>
-                       <CartProductPriceStyled>12.000.000VND</CartProductPriceStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px'}}>
-                    <BuyingQuantityWrapStyled>
-                      <RemoveIcon style={{cursor: 'pointer'}}/>
-                          <BuyingQuantityInputStyled 
-                            type="number"
-                            min="0"
-                          />
-                        <AddIcon style={{cursor: 'pointer'}}/>
-                    </BuyingQuantityWrapStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px'}}>
-                       <CartProductPriceStyled>24.000.000VND</CartProductPriceStyled>
-                  </CartDetailTdStyled>
-                  <CartDetailTdStyled style={{width: '200px', textAlign: 'center'}}>
-                       <DeleteOutlineOutlinedIcon />
-                  </CartDetailTdStyled>
-                </CartDetailTrStyled>
+                ))}
               </CartDetailHeadStyled>
             </CartDetailStyled>
             <CartDetailBottomStyled>
@@ -249,31 +257,22 @@ const Cart = () => {
               <CartDetailTotalContainerStyled>
                 <CartDetailTotalWrapStyled>
                   <CartDetailTotalHeaderStyled>Hóa đơn</CartDetailTotalHeaderStyled>
-                  <CartDetailTotalTitleWrapStyled>
-                    <CartDetailTotalTitleStyled>Beat Spill 2.0 Wireless Speaker – White x1</CartDetailTotalTitleStyled>
-                  </CartDetailTotalTitleWrapStyled>
-                  <CartDetailTotalTitleWrapStyled>
-                    <CartDetailTotalTitleStyled>Beat Spill 2.0 Wireless Speaker – White x1</CartDetailTotalTitleStyled>
-                  </CartDetailTotalTitleWrapStyled>
-                  <CartDetailTotalTitleWrapStyled>
-                    <CartDetailTotalTitleStyled>Beat Spill 2.0 Wireless Speaker – White x1</CartDetailTotalTitleStyled>
-                  </CartDetailTotalTitleWrapStyled>
-                  <CartDetailTotalTitleWrapStyled>
-                    <CartDetailTotalTitleStyled>Beat Spill 2.0 Wireless Speaker – White x1</CartDetailTotalTitleStyled>
-                  </CartDetailTotalTitleWrapStyled>
-                  <CartDetailTotalTitleWrapStyled>
-                    <CartDetailTotalTitleStyled>Beat Spill 2.0 Wireless Speaker – White x1</CartDetailTotalTitleStyled>
-                  </CartDetailTotalTitleWrapStyled>
+                  {cartItems && cartItems.map((item) => (
+                    <CartDetailTotalTitleWrapStyled key={item.product}>
+                      <CartDetailTotalTitleStyled>{`${item.name} x${item.quantity}`}</CartDetailTotalTitleStyled>
+                    </CartDetailTotalTitleWrapStyled>
+                  ))}
                   <CartDetailTotalBottomWrapStyled>
                     <CartDetailTotalStyled>Tổng giá trị</CartDetailTotalStyled>
-                    <CartDetailTotalStyled style={{fontSize: '22px', color: 'red'}}>80.000.000 VND</CartDetailTotalStyled>
+                    <CartDetailTotalStyled style={{fontSize: '22px', color: 'red'}}>{cartItems.reduce((total, item)=> total + item.price * item.quantity, 0).toLocaleString()} VND</CartDetailTotalStyled>
                   </CartDetailTotalBottomWrapStyled>
                 </CartDetailTotalWrapStyled>
-                <CheckoutBtnStyled>Thanh toán</CheckoutBtnStyled>
+                <CheckoutBtnStyled onClick={checkoutHandler}>Thanh toán</CheckoutBtnStyled>
               </CartDetailTotalContainerStyled>
             </CartDetailBottomStyled>
           </CartWrapStyled>
         </CartContainerStyled>
+        )}
     </>
   )
 }

@@ -5,7 +5,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import GoogleIcon from '@mui/icons-material/Google';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, clearErrors } from '../../../actions/userAction';
 import Loader from '../../child/Loader';
@@ -91,26 +91,28 @@ const TagIconWrapStyled = styled.div`
 `
 const LoginSignUp = () => {
   const [active, setActive] = useState(true);
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const alert = useAlert();
   const {error, isAuthenticated, loading} = useSelector((state) => state.user);
-  // const {loading} = useSelector((state) => state.profile);
   const [loginEmail, setLoginEmail] = useState('');
   const [password, setPassword] = useState('');
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginEmail, password))
   }
+  const redirect = location.search ? location.search.split("=")[1] : '/login';
+  console.log(redirect)
   useEffect(() => {
     if(error){
       alert.error(error);
       dispatch(clearErrors());
     }
     if(isAuthenticated){
-      navigate('/', {replace: true});
+      navigate(redirect);
     }
-  }, [dispatch, error, isAuthenticated, navigate, alert]);
+  }, [dispatch, error, isAuthenticated, navigate, alert, redirect]);
   return (
     <>
     <CotainerStyled>
