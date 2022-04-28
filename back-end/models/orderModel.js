@@ -15,6 +15,10 @@ const orderSchema = new Schema({
             type: String,
             required: true,
         },
+        state: {
+            type: String,
+            required: true,
+        },
         pinCode: {
             type: Number,
             required: true,
