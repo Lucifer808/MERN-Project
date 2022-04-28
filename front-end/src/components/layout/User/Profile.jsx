@@ -96,7 +96,7 @@ const Profile = () => {
                     <NavigateTitleStyled>Thay đổi mật khẩu</NavigateTitleStyled>
                   </NavigateItemStyled>
                 </Link>
-                <Link to="/order" style={{color: 'black', textDecoration: 'none'}}>
+                <Link to="/orders" style={{color: 'black', textDecoration: 'none'}}>
                   <NavigateItemStyled>
                     <DescriptionOutlinedIcon />
                     <NavigateTitleStyled>Kiểm tra đơn hàng</NavigateTitleStyled>

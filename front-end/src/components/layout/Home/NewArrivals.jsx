@@ -79,7 +79,7 @@ const SlideStarStyled = styled.div`
     justify-content: flex-start;
 `
 const SlideTileWrapStyled = styled.div`
-    margin-right: 30px;
+    margin-right: 80px;
     margin-bottom: 40px;
 `
 const SlideViewWrapStyled = styled.div`

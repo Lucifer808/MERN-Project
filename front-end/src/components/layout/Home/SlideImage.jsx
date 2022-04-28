@@ -8,12 +8,13 @@ import img5 from '../../../assets/img/slider/slide3.jpeg';
 const MidBannerWrapStyled = styled.div`
     height: 320px;
     width: 100%;
+    padding: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 `
 const MidBannerImageStyled = styled.img`
-    width: 390px;
+    width: 100%;
     height: 216px;
 `
 const BottomBannerStyled = styled.img``
@@ -29,8 +30,8 @@ const SlideImage = ({...props}) => {
                 </MidBannerWrapStyled>
             ) : (
                 <MidBannerWrapStyled>
-                    <BottomBannerStyled style={{width: '750px', height: '250px'}} src={img5} alt=""/>
-                    <BottomBannerStyled style={{width: '480px', height: '250px'}} src={img4} alt=""/>
+                    <BottomBannerStyled style={{width: '800px', height: '250px'}} src={img5} alt=""/>
+                    <BottomBannerStyled style={{width: '550px', height: '250px'}} src={img4} alt=""/>
                 </MidBannerWrapStyled>
             )}
         </div>

@@ -167,8 +167,8 @@ const ConfirmOrder = () => {
                       </ConfirmCartitemsTitleStyled>
                     </Link>{" "}
                     <ConfirmCartItemsTotalStyled>
-                      {item.quantity}x {item.price} VND = {" "}
-                      <ConfirmCartItemsTotalBoldStyled>{ item.price * item.quantity } VND</ConfirmCartItemsTotalBoldStyled>
+                      {item.quantity}x {item.price.toLocaleString()} VND = {" "}
+                      <ConfirmCartItemsTotalBoldStyled>{ (item.price * item.quantity).toLocaleString() } VND</ConfirmCartItemsTotalBoldStyled>
                     </ConfirmCartItemsTotalStyled>
                   </ConfirmCartItemsWrapStyled>
                 ))
@@ -182,15 +182,15 @@ const ConfirmOrder = () => {
                   <ConfirmCartOrderSummeryInfoWrapStyled>
                     <ConfirmCartOrderSummeryInfoStyled>
                       <ConfirmCartOrderSummeryTitleStyled>Tổng tiền:</ConfirmCartOrderSummeryTitleStyled>
-                      <ConfirmCartOrderSummerySpanStyled>{subtotal} VND</ConfirmCartOrderSummerySpanStyled>
+                      <ConfirmCartOrderSummerySpanStyled>{subtotal.toLocaleString()} VND</ConfirmCartOrderSummerySpanStyled>
                     </ConfirmCartOrderSummeryInfoStyled>
                     <ConfirmCartOrderSummeryInfoStyled>
                       <ConfirmCartOrderSummeryTitleStyled>Chi phí vận chuyển:</ConfirmCartOrderSummeryTitleStyled>
-                      <ConfirmCartOrderSummerySpanStyled>{shippingCharges} VND</ConfirmCartOrderSummerySpanStyled>
+                      <ConfirmCartOrderSummerySpanStyled>{shippingCharges.toLocaleString()} VND</ConfirmCartOrderSummerySpanStyled>
                     </ConfirmCartOrderSummeryInfoStyled>
                     <ConfirmCartOrderSummeryInfoStyled>
                       <ConfirmCartOrderSummeryTitleStyled>Thuế:</ConfirmCartOrderSummeryTitleStyled>
-                      <ConfirmCartOrderSummerySpanStyled>{tax} VND</ConfirmCartOrderSummerySpanStyled>
+                      <ConfirmCartOrderSummerySpanStyled>{tax.toLocaleString()} VND</ConfirmCartOrderSummerySpanStyled>
                     </ConfirmCartOrderSummeryInfoStyled>
                   </ConfirmCartOrderSummeryInfoWrapStyled>
                   <ConfirmCartOrderSummeryTotalWrapStyled>
@@ -199,7 +199,7 @@ const ConfirmOrder = () => {
                         Thành tiền: 
                       </ConfirmCartOrderSummeryTotalBoldStyled>
                     </ConfirmCartOrderSummeryTotalStyled>
-                    <ConfirmCartOrderSummeryTotalSpanStyled>{totalPrice} VND</ConfirmCartOrderSummeryTotalSpanStyled>
+                    <ConfirmCartOrderSummeryTotalSpanStyled>{totalPrice.toLocaleString()} VND</ConfirmCartOrderSummeryTotalSpanStyled>
                   </ConfirmCartOrderSummeryTotalWrapStyled>
                   <ConfirmCartOrderSummeryBtnStyled onClick={proceedToPayment}>Tiến hành thanh toán</ConfirmCartOrderSummeryBtnStyled>
               </ConfirmCartOrderSummeryWrapStyled>

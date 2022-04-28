@@ -11,8 +11,9 @@ import styled from 'styled-components';
 import side1 from '../../../assets/img/slider/promotion-1.jpg';
 import side2 from '../../../assets/img/slider/promotion-2.jpg';
 const Container = styled.div `
-    height: 466px;
-    width: 860px;
+    height: 500px;
+    width: 100%;
+    padding-right: 30px;
     flex: 2;
     display: flex;
     z-index: 1;
@@ -34,7 +35,7 @@ const Container = styled.div `
     }
 `
 const Wrapper = styled.div `
-    height: 416px;
+    height: 460px;
     width: 870px;
 `
 const Image = styled.img `
@@ -49,11 +50,11 @@ const SideImgSlide = styled.div`
     align-items: center;
     margin-top: 30px;
     margin-left: 40px;
-    height: 416px;
+    height: 460px;
 `
 const ImageSlide = styled.img`
     width: 380px;
-    height: 154px;
+    height: 180px;
 `
 const SlideContainer = styled.div`
     height: 416px;

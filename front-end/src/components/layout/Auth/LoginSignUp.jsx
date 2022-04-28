@@ -103,7 +103,6 @@ const LoginSignUp = () => {
     dispatch(login(loginEmail, password))
   }
   const redirect = location.search ? location.search.split("=")[1] : '/login';
-  console.log(redirect)
   useEffect(() => {
     if(error){
       alert.error(error);

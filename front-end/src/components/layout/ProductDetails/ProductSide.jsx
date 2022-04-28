@@ -397,7 +397,7 @@ const ProductSide = () => {
                             <FavoriteBorderOutlinedIcon style={{fontSize: '30px', cursor: 'pointer'}} />
                         </BuyingQuantityWrapStyled>
                         <BuyingTitleStyled style={{fontSize: '16px', marginTop: '10px'}}>{product.stock} sản phẩm có sẳn</BuyingTitleStyled>
-                        <BuyingBtnStyled onClick={addToCartHandle}>Thêm vào giỏ hàng</BuyingBtnStyled>
+                        <BuyingBtnStyled disabled={product.stock < 1 ? true : false} onClick={addToCartHandle}>Thêm vào giỏ hàng</BuyingBtnStyled>
                     </BuyingContainerStyled>
                     <TagContainerStyled>
                         <TagReportStyled>Báo cáo vi phạm</TagReportStyled>
