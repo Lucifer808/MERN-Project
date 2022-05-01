@@ -27,8 +27,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./components/layout/Cart/OrderSuccess";
 import MyOrders from "./components/layout/User/MyOrders";
 import OrderDetails from "./components/layout/Order/OrderDetails";
+import Dashboard from "./components/layout/admin/Dashboard";
+import ProductListAdmin from "./components/layout/admin/ProductListAdmin";
+import NewProduct from "./components/layout/admin/NewProduct";
+import UpdateProduct from "./components/layout/admin/UpdateProduct";
+import OrderList from "./components/layout/admin/OrderList";
+import ProcessOrder from "./components/layout/admin/ProcessOrder";
+import UsersList from "./components/layout/admin/UsersList";
+import UpdateUser from "./components/layout/admin/UpdateUser";
+import ProductReviews from "./components/layout/admin/ProductReviews"
+import WishList from "./components/layout/WishList/WishList";
 function App() {
-    const { isAuthenticated, user } = useSelector((state) => state.user);
+    const { isAuthenticated } = useSelector((state) => state.user);
 
     const [stripeApiKey, setStripeApiKey] = useState("");
 
@@ -68,6 +78,15 @@ function App() {
                 <Route path="/success" element={<OrderSuccess />}></Route>
                 <Route path="/orders" element={<MyOrders />}></Route>
                 <Route path="/order/:id" element={<OrderDetails />}></Route>
+                <Route path="/admin/dashboard" element={<Dashboard />}></Route>
+                <Route path="/admin/products" element={<ProductListAdmin />}></Route>
+                <Route path="/admin/product" element={<NewProduct />}></Route>
+                <Route path="/admin/product/:id" element={<UpdateProduct />}></Route>
+                <Route path="/admin/orders" element={<OrderList />}></Route>
+                <Route path="/admin/order/:id" element={<ProcessOrder />}></Route>
+                <Route path="/admin/users" element={<UsersList />}></Route>
+                <Route path="/admin/user/:id" element={<UpdateUser />}></Route>
+                <Route path="/admin/reviews" element={<ProductReviews />}></Route>
             </Route>
             <Route path="/login/shipping" element={<Shipping />}></Route>
             <Route path="/password/forgot" element={<ForgotPassword />}></Route>
@@ -75,6 +94,7 @@ function App() {
             <Route path="/me/password/reset/:token" element={<ResetPassword />}></Route>
             <Route path="/product/:id" element={<ProductDetails />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
+            <Route path="/wishlist" element={<WishList />}></Route>
         </Routes>
             <Footer />
         </>

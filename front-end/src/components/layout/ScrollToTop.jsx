@@ -18,7 +18,6 @@ const ToTopStyled = styled.div`
     background-color: #1900ff39;
     text-align: center;
 `
-const ImageStyled  = styled.img``
 const ScrollToTop = () => {
     const [scrollState, setScrollState] = useState(false);
     const [arrow, setArrow] = useState('/Arrow.png');

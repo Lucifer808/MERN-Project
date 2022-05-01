@@ -4,6 +4,7 @@ import ReactStars from 'react-rating-stars-component';
 import img1 from '../../../assets/img/vendor/apple.jpg';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import Moment from 'react-moment';
 const ReviewContainerStyled = styled.div`
     margin: 20px 0;
 `
@@ -25,6 +26,7 @@ const ReviewNameStyled = styled.h4`
 `
 const ReviewContentStyled = styled.h4`
     font-weight: 400;
+    font-size: 18px;
 `
 const ReviewActionContainerStyled = styled.div`
     display: flex;
@@ -45,6 +47,7 @@ const ReviewActionStyled = styled.h4`
     font-size: 14px;
 `
 const ReviewShowMoreBtnStyled = styled.button``
+const ReviewTimePublicStyled = styled.span``
 const ProductReviewCard = ({review}) => {
     const [showMore, setShowMore] = useState(false);
     const options = {
@@ -71,6 +74,7 @@ const ProductReviewCard = ({review}) => {
                         <ReviewShowMoreBtnStyled onClick={() => setShowMore(!showMore)}>{showMore ? 'Thu gọn' : '...'}</ReviewShowMoreBtnStyled>
                     }
                 </ReviewContentStyled>
+                    <Moment format="DD/MM/YYYY" date={review.createdAt} style={{fontSize: '14px', color: '#575757'}}></Moment>
                 <ReviewActionContainerStyled>
                     <ReviewActionWrapStyled>
                         <ThumbUpAltOutlinedIcon style={{fontSize: '14px',color: '#32a6f6'}} />

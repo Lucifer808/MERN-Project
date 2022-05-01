@@ -10,13 +10,14 @@ import slide2 from '../../../assets/img/slider/products2.webp';
 import slide3 from '../../../assets/img/slider/products3.webp';
 import GridOnOutlinedIcon from '@mui/icons-material/GridOnOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
-import {getProduct} from '../../../actions/productAction';
+import {getProduct, clearErrors} from '../../../actions/productAction';
 import {useSelector, useDispatch} from 'react-redux';
 import Loader from '../../child/Loader';
 import {useParams} from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 import {default as SliderMui} from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
+import { useAlert } from 'react-alert';
 const ContainerStyled = styled.div`
     padding: 30px;
     display: flex;
@@ -146,7 +147,7 @@ const PaginationStyled = styled.div`
     }
 `
 const FilterBoxStyled = styled.div`
-    width: 100%;    
+    width: 100%;
 `
 const CateBoxStyled = styled.ul`
     list-style-type: none;
@@ -198,16 +199,20 @@ const categories = [
 ]
 const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [price, setPrice] = useState([0, 50000]);
+    const [price, setPrice] = useState([0, 50000000]);
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0);
     const dispatch = useDispatch();
     const params = useParams();
     const keyword = params.keyword;
-    const {loading, products, productsCount, resultPerPage} = useSelector((state) => state.products)
-    useEffect(() => {
-        dispatch(getProduct(keyword, currentPage, price, category, ratings));
-    },[dispatch, keyword, currentPage, price, category, ratings]);
+    const alert = useAlert();
+    const {products,
+        loading,
+        error,
+        productsCount,
+        resultPerPage,
+        filteredProductsCount} = useSelector((state) => state.products)
+    let count = filteredProductsCount;
     const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
         <img src={LeftArrow} alt="prevArrow" {...props} />
     );
@@ -221,7 +226,6 @@ const Products = () => {
     const priceHandler = (e, newPrice)=>{
         setPrice(newPrice);
     }
-    const count = products.length;
     const settings = {
         className: "center",
         centerMode: true,
@@ -233,6 +237,13 @@ const Products = () => {
         prevArrow: <SlickArrowLeft />,
         nextArrow: <SlickArrowRight />,
     };
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+            dispatch(clearErrors());
+          }
+        dispatch(getProduct(keyword, currentPage, price, category, ratings));
+    },[dispatch, keyword, currentPage, price, category, ratings, error, alert]);
     return (
         <>
         <ContainerStyled>
@@ -240,7 +251,7 @@ const Products = () => {
             <AddressLinkStyled>Home / Products</AddressLinkStyled>
             <FilterBoxStyled>
                 <CateStyled>
-                    <Typography style={{fontSize: '18px', fontWeight: '500'}}>Danh mục sản phẩm</Typography>
+                    <Typography style={{fontSize: '18px', fontWeight: '500', backgroundColor: '#f5f5f5'}}>Danh mục sản phẩm</Typography>
                     <CateBoxStyled>
                         {
                             categories.map((category, index) => (
@@ -262,7 +273,7 @@ const Products = () => {
                     valueLabelDisplay="on"
                     aria-labelledby="range-slider"
                     min={0}
-                    max={50000}
+                    max={50000000}
                 />
                 <RatingSortWrapStyled>
                     <Typography component="legend">Số sao</Typography>
@@ -345,8 +356,8 @@ const Products = () => {
                 {keyword ? (
                     <SortFoundStyled>Kết quả tìm kiếm theo: {keyword}</SortFoundStyled>
                 ):(
-                    count > 0 ? (
-                        <SortFoundStyled>{count} sản phẩm được tìm thấy</SortFoundStyled>
+                    productsCount > 0 ? (
+                        <SortFoundStyled>{productsCount} sản phẩm được tìm thấy</SortFoundStyled>
                     ) : (
                         <SortFoundStyled>Không tìm thấy sản phẩm</SortFoundStyled>
                     )
@@ -383,6 +394,7 @@ const Products = () => {
                         activeLinkClass="pageLinkActive"
                     />
                 </PaginationStyled>
+            
         </>}
         </ContainerProductsStyled>
         </ContainerStyled>

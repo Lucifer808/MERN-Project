@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Typography, Stepper, StepLabel, Step } from "@material-ui/core";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import LibraryAddCheckIcon from "@material-ui/icons/LibraryAddCheck";

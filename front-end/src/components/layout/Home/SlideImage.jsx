@@ -14,7 +14,7 @@ const MidBannerWrapStyled = styled.div`
     justify-content: space-between;
 `
 const MidBannerImageStyled = styled.img`
-    width: 100%;
+    width: 450px;
     height: 216px;
 `
 const BottomBannerStyled = styled.img``

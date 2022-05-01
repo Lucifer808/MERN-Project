@@ -4,7 +4,7 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import InsertChartOutlinedRoundedIcon from '@mui/icons-material/InsertChartOutlinedRounded';
-import ReactStars from 'react-rating-stars-component';
+import { Rating } from "@material-ui/lab";
 import {Link} from 'react-router-dom';
 const ContainerStyled = styled.div`
     flex: 1;
@@ -128,13 +128,10 @@ const SlideTileWrapStyled = styled.div`
 `
 const SlideRatingCountStyled = styled.span``
 const Product = ({product}) => {
-    const options = {
-        edit: false,
-        color: 'rgba(20, 20, 20, .4)',
-        activeColor: '#fcb800',
-        size: window.innerWidth < 600 ? 15 : 20,
+    const ratingOptions = {
         value: product.ratings,
-        isHalf: true
+        readOnly: true,
+        precision: 0.5
     }
     return (
         <>
@@ -162,12 +159,12 @@ const Product = ({product}) => {
                         <SlideTileWrapStyled>
                             <SlideImageTitleStyled>{product.name}</SlideImageTitleStyled>
                             <SlideStarStyled>
-                                <ReactStars {...options}/>
+                                <Rating {...ratingOptions}/>
                                 <SlideRatingCountStyled style={{marginLeft: '10px'}}>({product.numOfReviews} Đánh giá)</SlideRatingCountStyled>
                             </SlideStarStyled>
                         </SlideTileWrapStyled>
                             <SlidePriceWrapStyled>
-                                <SlidedNewPriceStyled>{product.price} VND</SlidedNewPriceStyled>
+                                <SlidedNewPriceStyled>{product.price.toLocaleString()} VND</SlidedNewPriceStyled>
                                 <SlidedOldPriceStyled>350,000 VND</SlidedOldPriceStyled>
                             </SlidePriceWrapStyled>
                             <SaleOffStyled>

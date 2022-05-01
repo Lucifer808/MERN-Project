@@ -14,7 +14,6 @@ import BlenderIcon from '@mui/icons-material/Blender';
 import TvIcon from '@mui/icons-material/Tv';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import { Link } from 'react-router-dom';
-import img1 from '../../assets/img/slider/2.jpg';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import UserOptions from "./Auth/UserOptions";
@@ -367,16 +366,6 @@ const CartItemHeadMultyplyStyled = styled.span`
     margin: 0 5px;
 `
 const CartItemHeadQuantityStyled = styled.span``
-const CartItemHeadBtnStyled = styled.button`
-    border: none;
-    background-color: #fff;
-    font-size: 20px;
-    fon-weight: 300;
-    padding-left: 4px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-`
 const CartBottomTotalWrapStyled = styled.div`
     display: flex;
     align-items: center;
@@ -428,6 +417,7 @@ const Header = () => {
     const navigate = useNavigate();
     const {user, isAuthenticated} = useSelector((state) => state.user);
     const { cartItems } = useSelector((state) => state.cart);
+    const { wishListItems } = useSelector((state) => state.wishList);
     const [keyword, setKeyword] = useState("");
     const submitHandler = (e) => {
         e.preventDefault();
@@ -465,8 +455,10 @@ const Header = () => {
                         <NoticeStyled>3</NoticeStyled>
                     </IconWrapperStyled>
                     <IconWrapperStyled>
-                        <FavoriteBorderOutlinedIcon style={{fontSize: '36px'}}/>
-                        <NoticeStyled>3</NoticeStyled>
+                        <Link to='/wishlist' style={{textDecoration: 'none', color: 'black'}}>
+                            <FavoriteBorderOutlinedIcon style={{fontSize: '36px'}}/>
+                        </Link>
+                        <NoticeStyled>{wishListItems.length}</NoticeStyled>
                     </IconWrapperStyled>
                     <CartIconWrapperStyled>
                         <LocalMallOutlinedIcon className="cart-icon" style={{fontSize: '36px'}}/>

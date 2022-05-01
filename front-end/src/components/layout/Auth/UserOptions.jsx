@@ -150,10 +150,12 @@ const UserOptions = ({user}) => {
                 <CountNotificationStyled>2</CountNotificationStyled>
               </LoginedTagContainerStyled>
               { user.role === "admin" ? (
-                <LoginCateListItemStyled>
-                <WarehouseOutlinedIcon />
-                <LoginCateListItemOptionStyled>Quản lý cửa hàng</LoginCateListItemOptionStyled>
-              </LoginCateListItemStyled>
+                <Link to='/admin/dashboard' style={{textDecoration: 'none', color: 'black'}}>
+                  <LoginCateListItemStyled>
+                    <WarehouseOutlinedIcon />
+                    <LoginCateListItemOptionStyled>Quản lý cửa hàng</LoginCateListItemOptionStyled>
+                  </LoginCateListItemStyled>
+                </Link>
               ):''}
                 <LogoutLineStyled />
               <LoginCateListItemStyled>

@@ -12,6 +12,7 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import InsertChartOutlinedRoundedIcon from '@mui/icons-material/InsertChartOutlinedRounded';
+import { Link } from 'react-router-dom';
 const Up = keyframes `
     from{
         top: 0px;
@@ -219,7 +220,7 @@ const RightSide = () => {
             </TopSideWrapStyled>
             <PartnerWrapStyled>
                 <WarehouseIcon />
-                <PartnerTitleStyled>Trở thành đối tác của chúng tôi? Đăng kí ngay</PartnerTitleStyled>
+                <PartnerTitleStyled>Trở thành đối tác của chúng tôi? <Link to="/">Đăng kí ngay</Link></PartnerTitleStyled>
             </PartnerWrapStyled>
             <BannerWrapStyled>
                 <BannerStyled src={img} />

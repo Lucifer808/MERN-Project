@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import { image } from '../../../Static/dummydata';
-import ReactStars from 'react-rating-stars-component';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
@@ -15,7 +14,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductDetails } from '../../../actions/productAction';
+import { getProductDetails, newReview, clearErrors } from '../../../actions/productAction';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -25,6 +24,9 @@ import ProductReviewCard from './ProductReviewCard';
 import Loader from '../../child/Loader';
 import { addItemsToCart } from '../../../actions/cartAction';
 import { useAlert } from 'react-alert';
+import { Rating } from "@material-ui/lab";
+import { NEW_REVIEW_RESET } from '../../../constants/productConstants';
+import { addItemsToWishList } from "../../../actions/wishListAction";
 const WrapperStyled = styled.div`
     display: flex;
     flex: 4;
@@ -255,11 +257,43 @@ const ProductSpecTableTdStyled = styled.td`
     font-size: 17px;
 `
 const ProductReviewWrapStyled = styled.div`
+    overflow: auto;
+    max-height: 100vh;
 `
 const ProductReviewStyled = styled.form`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 `
-const ProductReviewInputStyled = styled.textarea``
-const ProductReviewBtnStyled = styled.button``
+const ProductReviewInputStyled = styled.textarea`
+    padding: 4px;
+    transform: translateX(80px);
+`
+const ProductReviewBtnStyled = styled.input`
+    position: relative;
+    right: 6%;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.623);
+    margin: 22px 0;
+    padding: 6px 8px;
+    cursor: pointer;
+    color: #000;
+    background-color: #fcb800;
+    border: none;
+    border-radius: 2px;
+`
+const ProductReviewTitleStyled = styled.p`
+    margin: 0 0 8px 4px;
+    font-size: 16px;
+`
+const ProductRatingWrapStyled = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`
 const ProductReviewsWrapStyled = styled.div``
 const ProductReviewsNotification = styled.p``
 const ProductSide = () => {
@@ -268,10 +302,14 @@ const ProductSide = () => {
     const alert = useAlert();
     const [valueIndex, setValueIndex] = useState('1');
     const [quantity, setQuantity] = useState(1);
-    useEffect(() => {
-        dispatch(getProductDetails(params.id))
-    },[dispatch, params.id])
-    const {product, loading} = useSelector((state) => state.productDetails);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
+    const {product, loading, error} = useSelector(
+        (state) => state.productDetails
+      );
+    const { success, error: reviewError } = useSelector(
+        (state) => state.newReview
+      );
     const settings = {
         dots: true,
         fade: true,
@@ -292,35 +330,64 @@ const ProductSide = () => {
         dotsClass: "slick-dots custom-indicator",
         arrows: false
     };
-    const options = {
-        edit: false,
-        color: 'rgba(20, 20, 20, .4)',
-        activeColor: '#fcb800',
-        size: window.innerWidth < 600 ? 15 : 20,
+    const ratingOptions = {
+        size: "large",
         value: product.ratings,
-        isHalf: true
+        readOnly: true,
+        precision: 0.5
     }
-
     const handleChange = (event, newValue) => {
         setValueIndex(newValue);
     };
-
+    
     const decreaseQuantity = () =>{
         if(quantity <= 1) return;
         const qty = quantity - 1;
         setQuantity(qty)
     }
-
+    
     const increaseQuantity = () =>{
         if(product.stock <= quantity) return;
         const qty = quantity + 1;
         setQuantity(qty)
     }
-
+    
     const addToCartHandle = () =>{
         dispatch(addItemsToCart(params.id, quantity));
-        alert.success("Sản phẩm đã được thêm vào giỏ hàng")
+        alert.success("Sản phẩm đã được thêm vào giỏ hàng");
     }
+    
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        
+        const myForm = new FormData();
+        myForm.set("comment", comment);
+        myForm.set("rating", rating);
+        myForm.set("productId", params.id);
+        
+        dispatch(newReview(myForm));
+    }
+    const addToWishListHadle = () =>{
+        dispatch(addItemsToWishList(params.id));
+        alert.success("Sản phẩm đã được thêm vào danh sách yêu thích");
+    }
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+            dispatch(clearErrors());
+          }
+      
+          if (reviewError) {
+            alert.error(reviewError);
+            dispatch(clearErrors());
+          }
+      
+          if (success) {
+            alert.success("Thêm đánh giá thành công !");
+            dispatch({ type: NEW_REVIEW_RESET });
+          }
+        dispatch(getProductDetails(params.id))
+    },[dispatch, params.id, alert, success, reviewError, error])
     return (
         <>
             {loading ? <Loader /> : (
@@ -346,7 +413,7 @@ const ProductSide = () => {
                         <TopSideBrandWrapStyled>
                             <TopSideBrandStyled>Thương hiệu: <TopSideBrandNameStyled>Asus</TopSideBrandNameStyled></TopSideBrandStyled>
                             <TopSideRatingWrapStyled>
-                                <ReactStars {...options}/>
+                                <Rating {...ratingOptions}/>
                                 <TopSideCountStyled>({product.numOfReviews})</TopSideCountStyled>
                             </TopSideRatingWrapStyled>
                         </TopSideBrandWrapStyled>
@@ -362,23 +429,23 @@ const ProductSide = () => {
                         <DescContainerStyled>
                             <DescWrapStyled>
                                 <DescDotStyled />
-                                <DescTitleStyled>Unrestrained and portable active stereo speaker</DescTitleStyled>
+                                <DescTitleStyled>Ưu đãi đặc quyền dành cho Học sinh Sinh viên: Tặng thêm 1 năm bảo hành </DescTitleStyled>
                             </DescWrapStyled>
                             <DescWrapStyled>
                                 <DescDotStyled />
-                                <DescTitleStyled>Free from the confines of wires and chords</DescTitleStyled>
+                                <DescTitleStyled>Tặng Balo sành điệu</DescTitleStyled>
                             </DescWrapStyled>
                             <DescWrapStyled>
                                 <DescDotStyled />
-                                <DescTitleStyled>20 hours of portable capabilities</DescTitleStyled>
+                                <DescTitleStyled>Cơ hội trúng Jackpot đến 2 tỷ</DescTitleStyled>
                             </DescWrapStyled>
                             <DescWrapStyled>
                                 <DescDotStyled />
-                                <DescTitleStyled>Double-ended Coil Cord with 3.5mm Stereo Plugs Included</DescTitleStyled>
+                                <DescTitleStyled>Thu cũ đổi mới trợ giá 15%</DescTitleStyled>
                             </DescWrapStyled>
                             <DescWrapStyled>
                                 <DescDotStyled />
-                                <DescTitleStyled>3/4″ Dome Tweeters: 2X and 4″ Woofer: 1X</DescTitleStyled>
+                                <DescTitleStyled>Đặt cấu hình tuỳ chọn</DescTitleStyled>
                             </DescWrapStyled>
                         </DescContainerStyled>
                     </InfoWrapStyled>
@@ -394,7 +461,7 @@ const ProductSide = () => {
                                 />
                             <AddIcon style={{cursor: 'pointer'}} onClick={increaseQuantity}/>
                             <InsertChartOutlinedIcon style={{margin: '0 10px', fontSize: '30px', cursor: 'pointer'}} />
-                            <FavoriteBorderOutlinedIcon style={{fontSize: '30px', cursor: 'pointer'}} />
+                            <FavoriteBorderOutlinedIcon style={{fontSize: '30px', cursor: 'pointer'}} onClick={addToWishListHadle}/>
                         </BuyingQuantityWrapStyled>
                         <BuyingTitleStyled style={{fontSize: '16px', marginTop: '10px'}}>{product.stock} sản phẩm có sẳn</BuyingTitleStyled>
                         <BuyingBtnStyled disabled={product.stock < 1 ? true : false} onClick={addToCartHandle}>Thêm vào giỏ hàng</BuyingBtnStyled>
@@ -572,9 +639,27 @@ const ProductSide = () => {
                     </TabPanel>
                     <TabPanel value="3">
                         <ProductReviewWrapStyled>
-                            <ProductReviewStyled>
-                                <ProductReviewInputStyled cols="100" rows="5" type="text" placeholder="Nhập bình luận tại đây..."/>
-                                <ProductReviewBtnStyled>Bình luận</ProductReviewBtnStyled>
+                            <ProductReviewStyled onSubmit={handleSubmit}>
+                                <ProductRatingWrapStyled>
+                                    <ProductReviewTitleStyled>Bạn chấm sản phẩm này bao nhiêu sao?</ProductReviewTitleStyled>
+                                    <Rating
+                                        onChange={(e) => setRating(e.target.value)}
+                                        value={rating}
+                                        size="large"
+                                        name="rating"
+                                    />
+                                </ProductRatingWrapStyled>
+                                <ProductReviewInputStyled 
+                                    cols="80" 
+                                    rows="4" 
+                                    type="text" 
+                                    placeholder="Nhập bình luận tại đây..."
+                                    onChange={(e) => setComment(e.target.value)}
+                                />
+                                <ProductReviewBtnStyled 
+                                type="submit" 
+                                value="Gửi đánh giá">
+                                </ProductReviewBtnStyled>
                             </ProductReviewStyled>
                             {product.reviews && product.reviews[0] ? (
                                 <ProductReviewsWrapStyled>

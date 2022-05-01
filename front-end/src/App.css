@@ -10,3 +10,9 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-family: 'Work Sans', sans-serif;
 }
+.greenColor {
+    color: green !important;
+  }
+  .redColor {
+    color: red !important;
+  }
