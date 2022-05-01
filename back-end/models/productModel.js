@@ -7,6 +7,10 @@ const productSchema = new Schema({
         required: [true, "Vui lòng nhập tên sản phẩm"],
         trim: true,
     },
+    brand: {
+        type: String,
+        required: [true, "Vui lòng nhập thương hiệu sản phẩm"]
+    },
     description: {
         type: String,
         required: [true, "Vui lòng nhập mô tả sản phẩm"],
@@ -64,6 +68,10 @@ const productSchema = new Schema({
             comment: {
                 type: String,
                 required: true,
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now,
             },
         },
     ],

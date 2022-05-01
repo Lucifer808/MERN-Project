@@ -54,15 +54,15 @@ exports.myOrders = catchAsyncError(async (req, res, next) => {
 });
 // Get all order - admin
 exports.getAllOrders = catchAsyncError(async (req, res, next) => {
-    const allOrders = await Order.find();
+    const orders = await Order.find();
     let totalAmount = 0;
-    allOrders.forEach((order) => {
+    orders.forEach((order) => {
         totalAmount += order.totalPrice;
     });
     res.status(201).json({
         success: true,
         totalAmount,
-        allOrders,
+        orders,
     });
 });
 // Update order status - admin
@@ -77,6 +77,11 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
     order.orderItems.forEach(async (item) => {
         await updateStock(item.product, item.quantity);
     });
+    if (req.body.status === "Shipped") {
+        order.orderItems.forEach(async (o) => {
+          await updateStock(o.product, o.quantity);
+        });
+    }
     order.orderStatus = req.body.status;
     if (req.body.status === "Delivered") {
         order.deliveredAt = Date.now();
